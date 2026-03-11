@@ -1,0 +1,27 @@
+:host {
+    display: block;
+}
+
+.required-note {
+    font-size: 0.95rem;
+    color: #5c5c5c;
+}
+
+.required-star {
+    color: #c23934;
+    font-weight: 700;
+}
+
+.section-header {
+    background: #f3f3f3;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1f2d3d;
+    margin-top: 5px;
+}
+
+.slds-p-around_medium {
+    padding: 5px 10px !important;
+}

@@ -1,0 +1,251 @@
+<template>
+    <lightning-quick-action-panel header={cardTitle}>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+
+        <div class="slds-p-around_medium">
+            <!--
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error slds-m-bottom_medium">
+                    {errorMessage}
+                </div>
+            </template>
+            -->
+            <!-- Required text -->
+            <div class="slds-text-align_right slds-m-bottom_small required-note">
+                <span class="required-star">*</span> = Required Information
+            </div>
+
+            <!-- Section header -->
+            <div class="section-header slds-m-bottom_medium">
+                Information
+            </div>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <!-- LEFT COLUMN -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                    <template if:true={showAccountField}>
+                        <div class="slds-m-bottom_small">
+                            <lightning-input
+                                type="text"
+                                label="Account"
+                                value={accountName}
+                                disabled
+                            ></lightning-input>
+                        </div>
+                    </template>
+
+                    <div class="slds-m-bottom_small">
+                        <lightning-combobox
+                            name="grade"
+                            label="Grade"
+                            value={grade}
+                            options={gradeOptions}
+                            onchange={handleGradeChange}
+                            required
+                        ></lightning-combobox>
+                    </div>
+                    <template if:true={hasSubgradeOptions}>
+                        <div class="slds-m-bottom_small">
+                            <lightning-combobox
+                                name="subgrade"
+                                label="Subgrade"
+                                value={subgrade}
+                                options={filteredSubgradeOptions}
+                                onchange={handleSubgradeChange}
+                                required
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                    <template if:true={hasFormOptions}>
+                        <div class="slds-m-bottom_small">
+                            <lightning-combobox
+                                name="form"
+                                label="Form"
+                                value={form}
+                                options={filteredFormOptions}
+                                onchange={handleFormChange}
+                                required
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                    <template if:true={hasSubformOptions}>
+                        <div class="slds-m-bottom_small">
+                            <lightning-combobox
+                                name="subform"
+                                label="Subform"
+                                value={subform}
+                                options={filteredSubformOptions}
+                                onchange={handleSubformChange}
+                                required
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                    <template if:true={hasColorOptions}>
+                        <div class="slds-m-bottom_small">
+                            <lightning-combobox
+                                name="color"
+                                label="Color"
+                                value={color}
+                                options={filteredColorOptions}
+                                onchange={handleColorChange}
+                                required
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                    <template if:true={hasSubcolorOptions}>
+                        <div class="slds-m-bottom_small">
+                            <lightning-combobox
+                                name="subcolor"
+                                label="Subcolor"
+                                value={subcolor}
+                                options={filteredSubcolorOptions}
+                                onchange={handleSubcolorChange}
+                                required
+                            ></lightning-combobox>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                    <div class="slds-m-bottom_small">
+                        <lightning-input
+                            type="text"
+                            label="Account's Material Name"
+                            value={accountsMaterialName}
+                            onchange={handleAccountsMaterialNameChange}
+                            required
+                        ></lightning-input>
+                        <template if:true={hasMeltRangeOptions}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-combobox
+                                    name="meltRange"
+                                    label="Melt Range"
+                                    value={meltRange}
+                                    options={filteredMeltRangeOptions}
+                                    onchange={handleMeltRangeChange}
+                                    required
+                                ></lightning-combobox>
+                            </div>
+                        </template>
+                        <template if:true={showMeltIndex}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-input
+                                    type="text"
+                                    label="Melt Index"
+                                    value={meltIndex}
+                                    onchange={handleMeltIndexChange}
+                                ></lightning-input>
+                            </div>
+                        </template>
+                        <template if:true={showImpact}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-input
+                                    type="text"
+                                    label="Impact"
+                                    value={impact}
+                                    onchange={handleImpactChange}
+                                ></lightning-input>
+                            </div>
+                        </template>
+                        <template if:true={hasFillOptions}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-combobox
+                                    name="fill"
+                                    label="Fill"
+                                    value={fill}
+                                    options={filteredFillOptions}
+                                    onchange={handleFillChange}
+                                ></lightning-combobox>
+                            </div>
+                        </template>
+                        <lightning-input
+                            type="text"
+                            label="Price"
+                            value={price}
+                            onchange={handlePriceChange}
+                        ></lightning-input>
+                        <lightning-input
+                            type="text"
+                            label="Volume"
+                            value={volume}
+                            onchange={handleVolumeChange}
+                        ></lightning-input>
+                        <template if:true={hasIzodOptions}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-combobox
+                                    name="izod"
+                                    label="Izod"
+                                    value={izod}
+                                    options={filteredIzodOptions}
+                                    onchange={handleIzodChange}
+                                ></lightning-combobox>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section header -->
+            <div class="section-header slds-m-bottom_medium">
+                Packages
+            </div>
+            
+            <div class="slds-grid slds-wrap slds-gutters">
+                <template for:each={visiblePackages} for:item="pkg">
+                    <div
+                        key={pkg.name}
+                        class="slds-col slds-size_1-of-1 slds-large-size_1-of-4 slds-m-bottom_small"
+                    >
+                        <lightning-input
+                            type="checkbox"
+                            label={pkg.label}
+                            checked={pkg.checked}
+                            data-name={pkg.name}
+                            onchange={handlePackageChange}
+                        ></lightning-input>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Section header -->
+            <div class="section-header slds-m-bottom_medium">
+                Additives
+            </div>
+            
+            <div class="slds-grid slds-wrap slds-gutters">
+                <template for:each={visibleAdditives} for:item="additive">
+                    <div
+                        key={additive.name}
+                        class="slds-col slds-size_1-of-1 slds-large-size_1-of-4 slds-m-bottom_small"
+                    >
+                        <lightning-input
+                            type="checkbox"
+                            label={additive.label}
+                            checked={additive.checked}
+                            data-name={additive.name}
+                            onchange={handleAdditiveChange}
+                        ></lightning-input>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+
+        <div slot="footer">
+            <lightning-button
+                label="Cancel"
+                onclick={handleCancel}
+                class="slds-m-right_small"
+            ></lightning-button>
+
+            <lightning-button
+                variant="brand"
+                label={saveButtonLabel}
+                onclick={handleSave}
+                disabled={isSaveDisabled}
+            ></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>
