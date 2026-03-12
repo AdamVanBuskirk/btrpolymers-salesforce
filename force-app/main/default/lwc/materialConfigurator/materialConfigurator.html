@@ -160,6 +160,37 @@
                                 ></lightning-combobox>
                             </div>
                         </template>
+                        <template if:true={hasIzodOptions}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-combobox
+                                    name="izod"
+                                    label="Izod"
+                                    value={izod}
+                                    options={filteredIzodOptions}
+                                    onchange={handleIzodChange}
+                                ></lightning-combobox>
+                            </div>
+                        </template>
+                        <template if:true={showIv}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-input
+                                    type="text"
+                                    label="IV"
+                                    value={iv}
+                                    onchange={handleIvChange}
+                                ></lightning-input>
+                            </div>
+                        </template>
+                        <template if:true={showDurometer}>
+                            <div class="slds-m-bottom_small">
+                                <lightning-input
+                                    type="text"
+                                    label="Durometer"
+                                    value={durometer}
+                                    onchange={handleDurometerChange}
+                                ></lightning-input>
+                            </div>
+                        </template>
                         <lightning-input
                             type="text"
                             label="Price"
@@ -172,17 +203,6 @@
                             value={volume}
                             onchange={handleVolumeChange}
                         ></lightning-input>
-                        <template if:true={hasIzodOptions}>
-                            <div class="slds-m-bottom_small">
-                                <lightning-combobox
-                                    name="izod"
-                                    label="Izod"
-                                    value={izod}
-                                    options={filteredIzodOptions}
-                                    onchange={handleIzodChange}
-                                ></lightning-combobox>
-                            </div>
-                        </template>
                     </div>
                 </div>
             </div>
@@ -209,27 +229,29 @@
                 </template>
             </div>
 
-            <!-- Section header -->
-            <div class="section-header slds-m-bottom_medium">
-                Additives
-            </div>
-            
-            <div class="slds-grid slds-wrap slds-gutters">
-                <template for:each={visibleAdditives} for:item="additive">
-                    <div
-                        key={additive.name}
-                        class="slds-col slds-size_1-of-1 slds-large-size_1-of-4 slds-m-bottom_small"
-                    >
-                        <lightning-input
-                            type="checkbox"
-                            label={additive.label}
-                            checked={additive.checked}
-                            data-name={additive.name}
-                            onchange={handleAdditiveChange}
-                        ></lightning-input>
-                    </div>
-                </template>
-            </div>
+            <template if:true={visibleAdditives.length}>
+                <!-- Section header -->
+                <div class="section-header slds-m-bottom_medium">
+                    Additives
+                </div>
+                
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={visibleAdditives} for:item="additive">
+                        <div
+                            key={additive.name}
+                            class="slds-col slds-size_1-of-1 slds-large-size_1-of-4 slds-m-bottom_small"
+                        >
+                            <lightning-input
+                                type="checkbox"
+                                label={additive.label}
+                                checked={additive.checked}
+                                data-name={additive.name}
+                                onchange={handleAdditiveChange}
+                            ></lightning-input>
+                        </div>
+                    </template>
+                </div>
+            </template>
 
         </div>
 

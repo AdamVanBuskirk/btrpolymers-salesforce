@@ -37,10 +37,12 @@ import IZOD_FIELD from '@salesforce/schema/Material__c.Izod__c';
 import IMPACT_FIELD from '@salesforce/schema/Material__c.Impact__c';
 import MELTINDEX_FIELD from '@salesforce/schema/Material__c.Melt_Index__c';
 import FILL_FIELD from '@salesforce/schema/Material__c.Fills__c';
+import IV_FIELD from '@salesforce/schema/Material__c.IV__c';
+import DUROMETER_FIELD from '@salesforce/schema/Material__c.Durometer__c';
 
 import { getAllowedSubgrades, getAllowedForms, getAllowedSubforms, getAllowedColors, getAllowedPackages, 
     getAllowedSubcolors, getAllowedMeltRanges, getAllowedAdditives, getAllowedIzod, getAllowedImpact, 
-    getAllowedMeltIndex, getAllowedFill } from './materialConfiguratorRules';
+    getAllowedMeltIndex, getAllowedFill, getAllowedIv, getAllowedDurometer } from './materialConfiguratorRules';
 
 const MATERIAL_FIELDS = [
     ID_FIELD,
@@ -71,7 +73,9 @@ const MATERIAL_FIELDS = [
     IZOD_FIELD,
     IMPACT_FIELD,
     MELTINDEX_FIELD,
-    FILL_FIELD
+    FILL_FIELD,
+    IV_FIELD,
+    DUROMETER_FIELD
 ];
 
 const ACCOUNT_FIELDS = [ACCOUNT_NAME_FIELD];
@@ -94,6 +98,8 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
     @track meltRange = '';
     @track izod = '';
     @track impact = '';
+    @track iv = '';
+    @track durometer = '';
     @track meltIndex = '';
     @track fill = '';
     
@@ -269,6 +275,7 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
 
     get filteredSubformOptions() {
         const allowedValues = getAllowedSubforms(
+            this.grade,
             this.form,
             this.allSubformOptions.map((o) => o.value)
         );
@@ -285,6 +292,7 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
     get filteredFillOptions() {
         const allowedValues = getAllowedFill(
             this.grade,
+            this.form,
             this.allFillOptions.map((o) => o.value)
         );
 
@@ -300,6 +308,7 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
     get filteredIzodOptions() {
         const allowedValues = getAllowedIzod(
             this.grade,
+            this.subgrade,
             this.allIzodOptions.map((o) => o.value)
         );
 
@@ -366,6 +375,14 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
 
     get showImpact() {
         return getAllowedImpact(this.grade);
+    }
+
+    get showIv() {
+        return getAllowedIv(this.grade);
+    }
+
+    get showDurometer() {
+        return getAllowedDurometer(this.grade, this.subgrade);
     }
 
     get showMeltIndex() {
@@ -558,6 +575,8 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
             this.price = data.fields.Price__c?.value || '';
             this.volume = data.fields.Volume__c?.value || '';
             this.impact = data.fields.Impact__c?.value || '';
+            this.iv = data.fields.IV__c?.value || '';
+            this.durometer = data.fields.Durometer__c?.value || '';
             this.meltIndex = data.fields.Melt_Index__c?.value || '';
             this.accountsMaterialName = data.fields.Account_Material_Name__c?.value || '';
             this.gaylord = data.fields.Gaylord__c?.value || false;
@@ -652,6 +671,7 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
         }
 
         const validSubformValues = getAllowedSubforms(
+            this.grade,
             this.form,
             this.allSubformOptions.map((o) => o.value)
         );
@@ -692,6 +712,7 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
 
         const validIzodValues = getAllowedIzod(
             this.grade,
+            this.subgrade,
             this.allIzodOptions.map((o) => o.value)
         );
 
@@ -701,6 +722,7 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
 
         const validFillValues = getAllowedFill(
             this.fill,
+            this.form,
             this.allFillOptions.map((o) => o.value)
         );
 
@@ -790,6 +812,14 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
         this.impact = event.target.value;
     }
 
+    handleIvChange(event) {
+        this.iv = event.target.value;
+    }
+
+    handleDurometerChange(event) {
+        this.durometer = event.target.value;
+    }
+
     handleMeltIndexChange(event) {
         this.meltIndex = event.target.value;
     }
@@ -863,6 +893,16 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
                 ? null
                 : parseInt(this.impact, 10);
 
+        const parsedIv =
+            this.iv === '' || this.iv === null || this.iv === undefined
+                ? null
+                : parseInt(this.iv, 10);
+
+        const parsedDurometer =
+            this.durometer === '' || this.durometer === null || this.durometer === undefined
+                ? null
+                : parseInt(this.durometer, 10);
+
         const parsedMeltIndex =
             this.meltIndex === '' || this.meltIndex === null || this.meltIndex === undefined
                 ? null
@@ -895,6 +935,28 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
                 new ShowToastEvent({
                     title: 'Invalid Impact',
                     message: 'Impact must be a valid whole number.',
+                    variant: 'error'
+                })
+            );
+            return;
+        }
+
+        if (parsedIv !== null && Number.isNaN(parsedIv)) {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Invalid IV',
+                    message: 'IV must be a valid whole number.',
+                    variant: 'error'
+                })
+            );
+            return;
+        }
+
+        if (parsedDurometer !== null && Number.isNaN(parsedDurometer)) {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Invalid Durometer',
+                    message: 'Durometer must be a valid whole number.',
                     variant: 'error'
                 })
             );
@@ -938,6 +1000,8 @@ export default class MaterialConfigurator extends NavigationMixin(LightningEleme
                 [PRICE_FIELD.fieldApiName]: parsedPrice,
                 [VOLUME_FIELD.fieldApiName]: parsedVolume,
                 [IMPACT_FIELD.fieldApiName]: parsedImpact,
+                [IV_FIELD.fieldApiName]: parsedIv,
+                [DUROMETER_FIELD.fieldApiName]: parsedDurometer,
                 [MELTINDEX_FIELD.fieldApiName]: parsedMeltIndex,
                 [GAYLORD_FIELD.fieldApiName]: this.gaylord || false,
                 [PALLET_FIELD.fieldApiName]: this.pallet || false,

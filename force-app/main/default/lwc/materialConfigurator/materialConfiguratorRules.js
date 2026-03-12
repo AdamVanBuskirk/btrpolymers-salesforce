@@ -129,13 +129,37 @@ export const MATERIAL_RULES = {
 
     subformRules: [
         {
+            grades: ['PE'],
             forms: ['Part'],
             allowedSubforms: ['Bottle', 'Injection', 'Profile', 'Roto']
         },
         {
-            formsExclude: ['Part'],
-            allowedSubforms: NONE
-        }
+            grades: ['PP'],
+            forms: ['Part'],
+            allowedSubforms: ['Bottle']
+        },
+        {
+            grades: ['PP'],
+            forms: ['Non-woven'],
+            allowedSubforms: ['Spunbond', 'Melt Blown', 'Needle Punch']
+        },
+        {
+            grades: ['PET'],
+            forms: ['Regrind'],
+            allowedSubforms: ['Bottle', 'Preform', 'Sheet']
+        },
+        {
+            grades: ['PET'],
+            forms: ['Part'],
+            allowedSubforms: ['Bottle', 'Preform', 'Injection']
+        },
+        {
+            grades: ['PVC'],
+            forms: ['Part'],
+            allowedSubforms: ['Profile', 'Injection']
+        },
+
+
     ],
 
     colorRules: [
@@ -214,65 +238,156 @@ export const MATERIAL_RULES = {
 
     meltRangeRules: [
         {
-            grade: 'PE',
-            meltRange: 'Frac',
+            grades: 'PE',
+            meltRanges: 'Frac',
             allowedSubgrades: ALL,
             allowedForms: ALL
         },
         {
-            grade: 'PE',
-            meltRange: '1 - 2',
+            grades: 'PE',
+            meltRanges: '1 - 2',
             subgradesExclude: ['UHMW'],
             allowedForms: ALL
         },
         {
-            grade: 'PE',
-            meltRange: '3 - 8',
+            grades: 'PE',
+            meltRanges: '3 - 8',
             subgradesExclude: ['UHMW', 'HMW'],
             allowedForms: ALL
         },
         {
-            grade: 'PE',
-            meltRange: '8 - 20',
+            grades: 'PE',
+            meltRanges: '8 - 20',
             subgradesExclude: ['UHMW', 'HMW'],
             formsExclude: ['Film']
         },
         {
-            grade: 'PE',
-            meltRange: '20 - 100',
+            grades: 'PE',
+            meltRanges: '20 - 100',
             subgradesExclude: ['UHMW', 'HMW'],
             formsExclude: ['Film', 'Sheet']
         },
         {
-            grade: 'PE',
-            meltRange: '100+',
+            grades: 'PE',
+            meltRanges: '100+',
             subgradesExclude: ['UHMW', 'HMW'],
             formsExclude: ['Film', 'Sheet']
-        }
+        },
+        {
+            grades: 'PP',
+            meltRanges: ['Frac', '1 - 2', '3 - 8'],
+            allowedSubgrades: ALL,
+            formsExclude: ['Fiber', 'Non-woven']
+        },
+        {
+            grades: 'PP',
+            meltRanges: '8 - 20',
+            allowedSubgrades: ALL,
+            formsExclude: ['Film', 'Non-woven', 'Sheet']
+        },
+        {
+            grades: 'PP',
+            meltRanges: ['20 - 100', '100+'],
+            allowedSubgrades: ALL,
+            formsExclude: ['Film', 'Sheet']
+        },
+        {
+            grades: ['TPE', 'TPO', 'TPU'],
+            meltRanges: ['Frac', '1 - 2', '3 - 8'],
+            allowedSubgrades: ALL,
+            formsExclude: ['Fiber', 'Non-woven']
+        },
+        {
+            grades: ['TPE', 'TPO', 'TPU'],
+            meltRanges: '8 - 20',
+            allowedSubgrades: ALL,
+            formsExclude: ['Fiber', 'Non-woven', 'Film', 'Sheet']
+        },
+        {
+            grades: ['TPE', 'TPO', 'TPU'],
+            meltRanges: ['20 - 100', '100+'],
+            allowedSubgrades: ALL,
+            formsExclude: ['Film', 'Sheet']
+        },
     ],
 
     additiveRules: [
         {
-            grades: ['PE'],
+            grades: ['PE', 'Misc. Resin'],
             allowedAdditives: ALL
+        },
+        {
+            grades: ['PP', 'TPE', 'TPO', 'TPU'],
+            allowedAdditives: ['EVOH', 'PE/PP']
+        },
+        {
+            grades: ['PET'],
+            allowedAdditives: ['EVOH', 'Nylon']
+        },
+        {
+            grades: ['PS'],
+            allowedAdditives: ['EVOH']
+        },
+        {
+            grades: ['PA', 'PC/ABS', 'POM', 'Acrylic'],
+            allowedAdditives: ['FR']
+        },
+        {
+            grades: ['PC', 'ABS', 'PETG'],
+            allowedAdditives: ['FR']
+        },
+        {
+            grades: ['Laminate'],
+            allowedAdditives: ['Nylon', 'EVOH', 'EVA', 'PE/PP']
+        },
+        {
+            grades: ['PVC', 'Paper'],
+            allowedAdditives: NONE
         },
     ],
 
     izodRules: [
         {
-            grades: ['PE'],
+            grades: ['PE', 'PET', 'PS', 'PA', 'PVC', 'PC', 'ABS', 'PC/ABS', 'POM', 'Acrylic', 'Paper', 'Misc. Resin', 'Laminate', 'PETG'],
+            subgrades: ALL,
             allowedIzod: NONE
+        },
+        {
+            grades: ['PP'],
+            subgrades: ['Copolymer'],
+            allowedIzod: ALL
+        },
+        {
+            grades: ['PP'],
+            subgrades: ['Homopolymer', 'BOPP'],
+            allowedIzod: ['0 - 2']
+        },
+        {
+            grades: ['TPE', 'TPO', 'TPU'],
+            subgrades: ALL,
+            allowedIzod: ALL
         }
     ],
 
     impactRules: [
         {
-            grades: ['PE'],
+            grades: ['PE', 'PP', 'PET', 'PA', 'PVC', 'TPE', 'TPO', 'TPU', 'Laminate'],
             allowedImpact: NONE
         },
         {
-            gradesExclude: ['PE'],
+            gradesExclude:  ['PE', 'PP', 'PET', 'PA', 'PVC', 'TPE', 'TPO', 'TPU', 'Laminate'],
             allowedImpact: ALL
+        }
+    ],
+
+    ivRules: [
+        {
+            grades: ['PET'],
+            allowedIv: ALL
+        },
+        {
+            gradesExclude:  ['PET'],
+            allowedIv: NONE
         }
     ],
 
@@ -286,7 +401,46 @@ export const MATERIAL_RULES = {
     fillRules: [
         {
             grades: ['PE'],
+            forms: ALL,
             allowedFills: ['Calcium', 'Talc']
+        },
+        {
+            grades: ['PP'],
+            forms: ['Non-woven', 'Fiber'],
+            allowedFills: ALL
+        },
+        {
+            grades: ['PET', 'Paper'],
+            forms: ALL,
+            allowedFills: NONE
+        },
+        {
+            grades: ['PS', 'PC', 'ABS', 'PC/ABS', 'POM', 'Acrylic', 'PETG'],
+            forms: ALL,
+            allowedFills: ['Glass']
+        },
+        {
+            grades: ['Laminate'],
+            forms: ALL,
+            allowedFills: ['Calcium']
+        },
+        {
+            grades: ['PA', 'PVC', 'Misc. Resin', 'TPE', 'TPO', 'TPU'],
+            forms: ALL,
+            allowedFills: ALL
+        },
+    ],
+
+    durometerRules: [
+        {
+            grades: ['PVC'],
+            subgrades: ['Flex'],
+            allowedDurometer: ALL
+        },
+        {
+            grades: ['TPE', 'TPO', 'TPU'],
+            subgrades: ALL,
+            allowedDurometer: ALL
         }
     ],
 
@@ -361,28 +515,20 @@ export function getAllowedForms(grade, subgrade, allFormValues) {
     return allFormValues;
 }
 
-export function getAllowedSubforms(form, allSubformValues) {
+export function getAllowedSubforms(grade, form, allSubformValues) {
 
     for (const rule of MATERIAL_RULES.subformRules) {
 
-        const includeMatch = !rule.forms || (form && rule.forms.includes(form));
+        const includeMatch = grade && form && rule.grades.includes(grade) && rule.forms.includes(form);
 
-        const excludeMatch = !rule.formsExclude || (form && !rule.formsExclude.includes(form));
+        //const excludeMatch = grade && form && (!rule.grades.includes(grade) || !rule.forms.includes(form));
 
-        if (includeMatch && excludeMatch) {
-            if (rule.allowedSubforms === ALL) {
-                return allSubformValues;
-            }
-
-            else if (rule.allowedSubforms === NONE) {
-                return [];
-            }
-
+        if (includeMatch) { // && excludeMatch
             return allSubformValues.filter((value) => rule.allowedSubforms.includes(value));
         }
     }
 
-    return allSubformValues;
+    return [];
 }
 
 export function getAllowedColors(grade, allColorValues) {
@@ -439,44 +585,30 @@ export function getAllowedPackages(form, allPackageValues) {
 }
 
 export function getAllowedMeltRanges(grade, subgrade, form, allMeltRangeValues) {
-    if (!grade) {
-        return allMeltRangeValues;
-    }
-
+    
     const allowed = [];
 
     for (const rule of MATERIAL_RULES.meltRangeRules) {
-        if (rule.grade !== grade) {
+
+        /* match grade */
+        if (!grade || !rule.grades.includes(grade)) {
             continue;
         }
-
-        const subgradeIncludeMatch =
-            !rule.allowedSubgrades ||
-            rule.allowedSubgrades === ALL ||
-            (subgrade && rule.allowedSubgrades.includes(subgrade));
-
-        const subgradeExcludeMatch =
-            !rule.subgradesExclude ||
-            !subgrade ||
-            !rule.subgradesExclude.includes(subgrade);
-
-        const formIncludeMatch =
-            !rule.allowedForms ||
-            rule.allowedForms === ALL ||
-            (form && rule.allowedForms.includes(form));
-
-        const formExcludeMatch =
-            !rule.formsExclude ||
-            !form ||
-            !rule.formsExclude.includes(form);
-
-        if (
-            subgradeIncludeMatch &&
-            subgradeExcludeMatch &&
-            formIncludeMatch &&
-            formExcludeMatch
-        ) {
-            allowed.push(rule.meltRange);
+        //console.log("0");
+        const subgradeIncludeMatch = rule.allowedSubgrades && (rule.allowedSubgrades === ALL || (subgrade && rule.allowedSubgrades.includes(subgrade)));
+        //console.log("1");
+        const subgradeExcludeMatch = !subgrade || (rule.subgradesExclude && (rule.subgradesExclude === ALL || !rule.subgradesExclude.includes(subgrade)));
+        //console.log("2");
+        const formIncludeMatch = form && rule.allowedForms && (rule.allowedForms === ALL || rule.allowedForms.includes(form));
+        //console.log("3");
+        const formExcludeMatch = !form || (rule.formsExclude && (rule.formsExclude === ALL || !rule.formsExclude.includes(form)));
+        //console.log("4");
+        if ((subgradeIncludeMatch || subgradeExcludeMatch) && (formIncludeMatch || formExcludeMatch)) {
+            if (Array.isArray(rule.meltRanges)) {
+                allowed.push(...rule.meltRanges);
+            } else {
+                allowed.push(rule.meltRanges);
+            }
         }
     }
 
@@ -503,26 +635,31 @@ export function getAllowedAdditives(grade, allAdditiveValues) {
     return allAdditiveValues;
 }
 
-export function getAllowedIzod(grade, allIzodValues) {
+export function getAllowedIzod(grade, subgrade, allIzodValues) {
 
     for (const rule of MATERIAL_RULES.izodRules) {
 
-        const includeMatch = !rule.grades || (grade && rule.grades.includes(grade));
-
-        const excludeMatch = !rule.izodExclude || (grade && !rule.gradesExclude.includes(form));
-
-        if (includeMatch && excludeMatch) {
-            if (rule.allowedIzod === ALL) {
-                return allIzodValues;
-            }
-            else if (rule.allowedIzod === NONE) {
-                return [];
-            }
-            return allIzodValues.filter((value) => rule.allowedIzod.includes(value));
+        /* Filter on the grade */
+        if (!grade || !rule.grades.includes(grade)) {
+            continue;
         }
+        //console.log("passed grade");
+        /* Filter on the subgrade */
+        if (rule.subgrades !== ALL && (!subgrade || !rule.subgrades.includes(subgrade))) {
+            continue;
+        }
+        //console.log("passed subgrade");
+        if (rule.allowedIzod === ALL) {
+            return allIzodValues;
+        }
+        else if (rule.allowedIzod === NONE) {
+            return [];
+        }
+        //console.log("made to final return");
+        return allIzodValues.filter((value) => rule.allowedIzod.includes(value));
     }
 
-    return allIzodValues;
+    return [];
 }
 
 export function getAllowedImpact(grade) {
@@ -538,6 +675,27 @@ export function getAllowedImpact(grade) {
                 return true;
             }
             else if (rule.allowedImpact === NONE) {
+                return false;
+            }
+        }
+    }
+
+    return false;
+}
+
+export function getAllowedIv(grade) {
+
+    for (const rule of MATERIAL_RULES.ivRules) {
+
+        const includeMatch = !rule.grades || (grade && rule.grades.includes(grade));
+
+        const excludeMatch = !rule.impactExclude || (grade && !rule.gradesExclude.includes(grade));
+
+        if (includeMatch && excludeMatch) {
+            if (rule.allowedIv === ALL) {
+                return true;
+            }
+            else if (rule.allowedIv === NONE) {
                 return false;
             }
         }
@@ -567,22 +725,52 @@ export function getAllowedMeltIndex(meltRange) {
     return false;
 }
 
-export function getAllowedFill(grade, allFillValues) {
+export function getAllowedFill(grade, form, allFillValues) {
 
     for (const rule of MATERIAL_RULES.fillRules) {
 
-        const includeMatch = !rule.grades || (grade && rule.grades.includes(grade));
-
-        if (includeMatch) {
-            if (rule.allowedFills === ALL) {
-                return allFillValues;
-            }
-            else if (rule.allowedFills === NONE) {
-                return [];
-            }
-            return allFillValues.filter((value) => rule.allowedFills.includes(value));
+        /* Filter on the grade */
+        if (!grade || !rule.grades.includes(grade)) {
+            continue;
         }
+
+        /* Filter on the subgrade */
+        if (rule.forms !== ALL && (!form || !rule.forms.includes(form))) {
+            continue;
+        }
+  
+        if (rule.allowedFills === ALL) {
+            return allFillValues;
+        }
+        else if (rule.allowedFills === NONE) {
+            return [];
+        }
+   
+        return allFillValues.filter((value) => rule.allowedFills.includes(value));
     }
 
-    return allFillValues;
+    return [];
+}
+
+export function getAllowedDurometer(grade, subgrade) {
+
+    for (const rule of MATERIAL_RULES.durometerRules) {
+
+        /* Filter on the grade */
+        if (!grade || !rule.grades.includes(grade)) {
+            continue;
+        }
+
+        /* Filter on the subgrade */
+        if (rule.subgrades !== ALL && (!subgrade || !rule.subgrades.includes(subgrade))) {
+            continue;
+        }
+  
+        if (rule.allowedDurometer === ALL) {
+            return true;
+        }
+        return false;
+    }
+
+    return false;
 }
